@@ -1,9 +1,11 @@
 import { useState, useRef } from 'react';
 import { certifications } from '../data/portfolioData';
 
-export default function CertificationsSection() {
+export default function CertificationsSection({ onOpenAllCertifications }) {
   const [activeCert, setActiveCert] = useState(null);
   const wrapperRef = useRef(null);
+
+  const visibleCerts = certifications.slice(0, 4);
 
   const handleMouseMove = (e) => {
     if (wrapperRef.current) {
@@ -28,11 +30,17 @@ export default function CertificationsSection() {
     <section className="section" id="certifications">
       <div className="section-header">
         <div className="section-label">03 — certifications</div>
+        <button
+          className="section-link-btn"
+          onClick={onOpenAllCertifications}
+        >
+          ALL CERTIFICATIONS →
+        </button>
       </div>
 
       {/* Projects-style List for Certifications */}
       <div className="projects-exp-timeline">
-        {certifications.map((cert, idx) => (
+        {visibleCerts.map((cert, idx) => (
           <a
             key={idx}
             href={cert.link}
@@ -60,7 +68,7 @@ export default function CertificationsSection() {
         ))}
       </div>
 
-      {/* Hardware-Accelerated Viewport-Fixed Hover Popup (Cert Preview Image) */}
+      {/* Hardware-Accelerated Viewport-Fixed Hover Popup */}
       {activeCert && (
         <div
           ref={wrapperRef}

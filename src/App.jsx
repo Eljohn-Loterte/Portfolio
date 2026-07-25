@@ -6,13 +6,14 @@ import ProjectsPage from './components/ProjectsPage';
 import StackSection from './components/StackSection';
 import ExperienceSection from './components/ExperienceSection';
 import CertificationsSection from './components/CertificationsSection';
+import CertificationsPage from './components/CertificationsPage';
 import AffiliationsSection from './components/AffiliationsSection';
 import GithubSection from './components/GithubSection';
 
 const sectionIds = ['about', 'projects', 'stack', 'experience', 'certifications', 'affiliations', 'github'];
 
 export default function App() {
-  const [currentView, setCurrentView] = useState('home'); // 'home' | 'projects'
+  const [currentView, setCurrentView] = useState('home'); // 'home' | 'projects' | 'certifications'
   const [activeSection, setActiveSection] = useState('projects');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const isNavClickingRef = useRef(false);
@@ -91,6 +92,12 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
+  const openAllCertifications = useCallback(() => {
+    setCurrentView('certifications');
+    setActiveSection('certifications');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   const backToHome = useCallback(() => {
     setCurrentView('home');
     setActiveSection('projects');
@@ -115,13 +122,15 @@ export default function App() {
       <main className="main-content">
         {currentView === 'projects' ? (
           <ProjectsPage onBack={backToHome} />
+        ) : currentView === 'certifications' ? (
+          <CertificationsPage onBack={backToHome} />
         ) : (
           <>
             <LandingSection />
             <ProjectsSection onOpenAllProjects={openAllProjects} />
             <StackSection />
             <ExperienceSection />
-            <CertificationsSection />
+            <CertificationsSection onOpenAllCertifications={openAllCertifications} />
             <AffiliationsSection />
             <GithubSection />
           </>
