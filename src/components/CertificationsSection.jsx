@@ -41,15 +41,13 @@ export default function CertificationsSection({ onOpenAllCertifications }) {
       {/* Projects-style List for Certifications */}
       <div className="projects-exp-timeline">
         {visibleCerts.map((cert, idx) => (
-          <a
+          <div
             key={idx}
-            href={cert.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="project-exp-item"
+            className="project-exp-item cert-item-no-link"
             onMouseEnter={(e) => handleMouseEnter(cert, e)}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
+            style={{ cursor: 'default' }}
           >
             {/* Column 1: Date/Year */}
             <div className="project-exp-date">{cert.date}</div>
@@ -61,14 +59,11 @@ export default function CertificationsSection({ onOpenAllCertifications }) {
                 <span className="project-stack-pill">{cert.issuer}</span>
               </div>
             </div>
-
-            {/* Column 3: Diagonal Arrow Clickable Link */}
-            <div className="project-exp-arrow">↗</div>
-          </a>
+          </div>
         ))}
       </div>
 
-      {/* Hardware-Accelerated Viewport-Fixed Hover Popup */}
+      {/* Hardware-Accelerated Viewport-Fixed Hover Popup (Pure Image) */}
       {activeCert && (
         <div
           ref={wrapperRef}

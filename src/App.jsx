@@ -100,7 +100,7 @@ export default function App() {
 
   const backToHome = useCallback(() => {
     setCurrentView('home');
-    setActiveSection('projects');
+    setActiveSection('about');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
@@ -117,6 +117,7 @@ export default function App() {
         theme={theme}
         onToggleTheme={toggleTheme}
         onSelectSection={handleNavClick}
+        onGoHome={backToHome}
       />
 
       <main className="main-content">

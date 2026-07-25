@@ -152,13 +152,44 @@ export const stackItems = stack;
 
 export const certifications = [
   {
+    name: "Data Manipulation with pandas",
+    issuer: "DataCamp",
+    date: "2026",
+    type: "Completion",
+    category: "Data Science",
+    image: "/certs/Data_Manipulation_With_Pandas.png",
+  },
+  {
+    name: "Intermediate Python",
+    issuer: "DataCamp",
+    date: "2026",
+    type: "Completion",
+    category: "Data Science",
+    image: "/certs/Intemediate_Python.png",
+  },
+  {
+    name: "Introduction to Python",
+    issuer: "DataCamp",
+    date: "2026",
+    type: "Completion",
+    category: "Data Science",
+    image: "/certs/Intro_To_Python.png",
+  },
+  {
+    name: "Introduction to Tableau",
+    issuer: "DataCamp",
+    date: "2026",
+    type: "Completion",
+    category: "Data Analytics",
+    image: "/certs/Intro_to_Tableau.png",
+  },
+  {
     name: "AWS Certified Machine Learning — Specialty",
     issuer: "Amazon Web Services",
     date: "2024",
     type: "Professional",
     category: "Data Science",
-    link: "https://aws.amazon.com",
-    image: createPlaceholder("AWS ML SPECIALTY", "#0f766e", "#134e4a"),
+    image: "/public/certs/Intro_to_Tableau.png",
   },
   {
     name: "Google Data Analytics Professional Certificate",
@@ -166,17 +197,14 @@ export const certifications = [
     date: "2023",
     type: "Professional",
     category: "Data Analytics",
-    link: "https://coursera.org",
-    image: createPlaceholder("GOOGLE DATA ANALYTICS", "#1e40af", "#1e3a5f"),
+    image: "/certs/google-data-analytics.png",
   },
   {
     name: "Meta Front-End Developer Specialization",
     issuer: "Meta",
     date: "2023",
     type: "Professional",
-    category: "Front-End Dev",
-    link: "https://coursera.org",
-    image: createPlaceholder("META FRONT-END DEV", "#7c3aed", "#4c1d95"),
+    image: "/certs/meta-frontend-dev.png",
   },
   {
     name: "TensorFlow Developer Certificate",
@@ -204,15 +232,6 @@ export const certifications = [
     category: "Front-End Dev",
     link: "https://scrimba.com",
     image: createPlaceholder("ADVANCED REACT", "#ea580c", "#9a3412"),
-  },
-  {
-    name: "SQL for Data Science & Business Intelligence",
-    issuer: "DataCamp",
-    date: "2022",
-    type: "Completion",
-    category: "Data Analytics",
-    link: "https://datacamp.com",
-    image: createPlaceholder("SQL DATA ANALYTICS", "#15803d", "#14532d"),
   },
 ];
 

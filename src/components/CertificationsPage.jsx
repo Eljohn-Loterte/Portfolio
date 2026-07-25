@@ -5,7 +5,7 @@ export default function CertificationsPage({ onBack }) {
   const types = ['Professional', 'Completion'];
   const categories = ['Data Science', 'Front-End Dev', 'Data Analytics'];
 
-  const [selectedType, setSelectedType] = useState('Professional');
+  const [selectedType, setSelectedType] = useState('Completion');
   const [selectedCategory, setSelectedCategory] = useState('Data Science');
   const [activeCert, setActiveCert] = useState(null);
   const wrapperRef = useRef(null);
@@ -14,7 +14,7 @@ export default function CertificationsPage({ onBack }) {
   const filteredCerts = useMemo(() => {
     return certifications.filter(
       (c) =>
-        (c.type || 'Professional') === selectedType &&
+        (c.type || 'Completion') === selectedType &&
         (c.category || 'Data Science') === selectedCategory
     );
   }, [selectedType, selectedCategory]);
@@ -60,7 +60,7 @@ export default function CertificationsPage({ onBack }) {
         <div className="projects-tabs-row">
           {types.map((type) => {
             const count = certifications.filter(
-              (c) => (c.type || 'Professional') === type
+              (c) => (c.type || 'Completion') === type
             ).length;
             return (
               <button
@@ -82,7 +82,7 @@ export default function CertificationsPage({ onBack }) {
           {categories.map((cat) => {
             const count = certifications.filter(
               (c) =>
-                (c.type || 'Professional') === selectedType &&
+                (c.type || 'Completion') === selectedType &&
                 (c.category || 'Data Science') === cat
             ).length;
             return (
@@ -102,31 +102,28 @@ export default function CertificationsPage({ onBack }) {
       {/* Dedicated Certifications Page List Items */}
       <div className="projects-page-list" style={{ marginTop: '24px' }}>
         {filteredCerts.map((cert, idx) => (
-          <a
+          <div
             key={idx}
-            href={cert.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="page-project-card"
+            className="page-project-card cert-card-no-link"
             onMouseEnter={(e) => handleMouseEnter(cert, e)}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
+            style={{ cursor: 'default' }}
           >
             {/* Line 1: YEAR */}
             <div className="page-project-year">{cert.date}</div>
 
-            {/* Line 2: <Category/> Certificate Name ... ↗ */}
+            {/* Line 2: <Category/> Certificate Name */}
             <div className="page-project-header">
               <span className="page-project-category">&lt;{cert.category || selectedCategory}/&gt;</span>
               <h3 className="page-project-title">{cert.name}</h3>
-              <span className="page-project-arrow">↗</span>
             </div>
 
             {/* Line 3: Issuer / Provider */}
             <div className="page-project-stack" style={{ marginTop: '4px' }}>
               <span className="project-stack-pill">{cert.issuer}</span>
             </div>
-          </a>
+          </div>
         ))}
 
         {filteredCerts.length === 0 && (
@@ -136,7 +133,7 @@ export default function CertificationsPage({ onBack }) {
         )}
       </div>
 
-      {/* Hardware-Accelerated Viewport-Fixed Hover Popup */}
+      {/* Hardware-Accelerated Viewport-Fixed Hover Popup (Pure Image) */}
       {activeCert && (
         <div
           ref={wrapperRef}

@@ -55,7 +55,7 @@ const navItems = [
   },
 ];
 
-export default function Sidebar({ activeSection, isOpen, onClose, theme, onToggleTheme, onSelectSection }) {
+export default function Sidebar({ activeSection, isOpen, onClose, theme, onToggleTheme, onSelectSection, onGoHome }) {
   const handleNavClick = (e, id) => {
     e.preventDefault();
     if (onSelectSection) onSelectSection(id);
@@ -65,12 +65,28 @@ export default function Sidebar({ activeSection, isOpen, onClose, theme, onToggl
     if (onClose) onClose();
   };
 
+  const handleNameClick = (e) => {
+    e.preventDefault();
+    if (onGoHome) {
+      onGoHome();
+    } else if (onSelectSection) {
+      onSelectSection('about');
+    }
+    if (onClose) onClose();
+  };
+
   return (
     <>
       <div className={`mobile-overlay ${isOpen ? 'open' : ''}`} onClick={onClose} />
       <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
-        {/* Name */}
-        <div className="sidebar-name">{profile.name}</div>
+        {/* Name — Clickable button back to home */}
+        <button
+          className="sidebar-name-btn"
+          onClick={handleNameClick}
+          title="Return to Home"
+        >
+          {profile.name}
+        </button>
 
         {/* Divider */}
         <div className="sidebar-divider" />
@@ -108,25 +124,25 @@ export default function Sidebar({ activeSection, isOpen, onClose, theme, onToggl
                 <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
                 <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
               </svg>
-              Light mode
+              <span>Light mode</span>
             </>
           ) : (
             <>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
               </svg>
-              Dark mode
+              <span>Dark mode</span>
             </>
-          )}
+          ) }
         </button>
 
-        {/* Contact */}
-        <div className="sidebar-contact-info">
-          reach me at
-          <a href={profile.socials.email}>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="2" y="4" width="20" height="16" rx="2"/>
-              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+        {/* Footer contact info */}
+        <div className="sidebar-footer">
+          <span className="footer-reach">reach me at</span>
+          <a href={`mailto:${profile.email}`} className="footer-email">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
             </svg>
             {profile.email}
           </a>
