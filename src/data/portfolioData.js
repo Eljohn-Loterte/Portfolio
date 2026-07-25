@@ -1,17 +1,17 @@
 // ===== PORTFOLIO DATA — Edit your details here =====
 
 function createPlaceholder(title, bg1, bg2) {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180" viewBox="0 0 320 180">
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540">
     <defs>
       <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stop-color="${bg1}" />
         <stop offset="100%" stop-color="${bg2}" />
       </linearGradient>
     </defs>
-    <rect width="320" height="180" fill="url(#g)"/>
-    <rect x="20" y="20" width="280" height="140" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
-    <text x="160" y="80" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="14" font-weight="bold">${title}</text>
-    <text x="160" y="110" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-family="monospace" font-size="10">PROJECT PREVIEW IMAGE</text>
+    <rect width="960" height="540" fill="url(#g)"/>
+    <rect x="40" y="40" width="880" height="460" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+    <text x="480" y="240" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="32" font-weight="bold">${title}</text>
+    <text x="480" y="310" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-family="monospace" font-size="18">PROJECT PREVIEW IMAGE (16:9)</text>
   </svg>`;
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 }
@@ -135,29 +135,17 @@ export const experience = [
 ];
 
 export const stack = [
-  "Python",
-  "SQL",
+  "HTML",
+  "CSS",
   "JavaScript",
-  "TypeScript",
-  "React",
-  "Next.js",
-  "Node.js",
-  "FastAPI",
-  "PyTorch",
-  "Scikit-Learn",
-  "XGBoost",
-  "Pandas",
-  "NumPy",
-  "Power BI",
   "Tableau",
-  "PostgreSQL",
-  "MongoDB",
-  "Docker",
+  "Excel",
+  "SQL",
+  "Python",
+  "Tailwind",
   "Git",
-  "HTML/CSS",
-  "Tailwind CSS",
-  "D3.js",
-  "Plotly",
+  "SupaBase",
+  "React",
 ];
 
 export const stackItems = stack;
@@ -167,22 +155,22 @@ export const certifications = [
     name: "AWS Certified Machine Learning — Specialty",
     issuer: "Amazon Web Services",
     date: "2024",
-    link: "#",
-    icon: "☁️",
+    link: "https://aws.amazon.com",
+    image: createPlaceholder("AWS ML SPECIALTY", "#0f766e", "#134e4a"),
   },
   {
     name: "Google Data Analytics Professional Certificate",
     issuer: "Google",
     date: "2023",
-    link: "#",
-    icon: "📊",
+    link: "https://coursera.org",
+    image: createPlaceholder("GOOGLE DATA ANALYTICS", "#1e40af", "#1e3a5f"),
   },
   {
     name: "Meta Front-End Developer Specialization",
     issuer: "Meta",
     date: "2023",
-    link: "#",
-    icon: "⚛️",
+    link: "https://coursera.org",
+    image: createPlaceholder("META FRONT-END DEV", "#7c3aed", "#4c1d95"),
   },
 ];
 

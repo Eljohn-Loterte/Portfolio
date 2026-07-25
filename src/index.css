@@ -607,12 +607,16 @@ body {
 /* Cursor-Following Flat Rectangle Lizard-Eye Image Preview (16:9 Ratio) */
 .project-cursor-image-wrapper {
   position: fixed;
+  top: 0;
+  left: 0;
   pointer-events: none;
   z-index: 1000;
+  will-change: transform;
 }
 
 .project-lizard-eye-box {
-  width: 320px;
+  width: 360px;
+  max-width: 90vw;
   aspect-ratio: 16 / 9;
   border-radius: 0px !important; /* Flat rectangle, sharp edges, no curves */
   border: 1px solid var(--border-secondary);
@@ -645,6 +649,188 @@ body {
   object-fit: cover;
   display: block;
   border-radius: 0px !important;
+}
+
+/* =========================== */
+/*      PROJECTS DEDICATED PAGE */
+/* =========================== */
+.projects-page-container {
+  width: 100%;
+  max-width: 760px;
+  padding-top: 52px;
+  padding-bottom: var(--section-gap);
+  margin: 0 auto;
+  animation: pageFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.projects-page-nav {
+  margin-bottom: 24px;
+}
+
+.projects-page-header {
+  margin-bottom: 32px;
+}
+
+.projects-page-title {
+  font-family: var(--font-mono);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: 12px;
+  text-transform: lowercase;
+}
+
+.projects-page-subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 580px;
+}
+
+/* Table-Style Category Tabs Bar */
+.projects-tabs-bar {
+  border-bottom: 1px solid var(--border-primary);
+  margin-bottom: 28px;
+  width: 100%;
+}
+
+.projects-tabs-row {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: -1px;
+}
+
+.projects-tab-item {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 8px 2px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all var(--transition-fast);
+}
+
+.projects-tab-item:hover {
+  color: var(--text-primary);
+}
+
+.projects-tab-item.active {
+  color: var(--text-primary);
+  border-bottom-color: var(--text-primary);
+  font-weight: 600;
+}
+
+.projects-tab-item .tab-count {
+  font-size: 10px;
+  color: var(--text-muted);
+  opacity: 0.85;
+}
+
+.projects-empty-state {
+  padding: 48px 0;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* Dedicated Projects Page Card Layout */
+.projects-page-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.page-project-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px 14px;
+  border-bottom: 1px solid var(--border-primary);
+  text-decoration: none;
+  color: inherit;
+  border-radius: var(--radius-md);
+  transition: background-color var(--transition-fast), padding-left var(--transition-fast);
+  cursor: pointer;
+}
+
+.page-project-card:hover {
+  background-color: var(--accent-dim);
+  padding-left: 20px;
+}
+
+.page-project-year {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.page-project-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.page-project-category {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.page-project-title {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  flex: 1;
+  line-height: 1.3;
+}
+
+.page-project-arrow {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  color: var(--text-muted);
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.page-project-card:hover .page-project-arrow {
+  color: var(--accent);
+  transform: translate(3px, -3px);
+}
+
+.page-project-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 680px;
+}
+
+.page-project-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
 }
 
 /* 1. Category Tag at Top — Main Tag 16px */

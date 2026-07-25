@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import Sidebar from './components/Sidebar';
 import LandingSection from './components/LandingSection';
 import ProjectsSection from './components/ProjectsSection';
+import ProjectsPage from './components/ProjectsPage';
 import StackSection from './components/StackSection';
 import ExperienceSection from './components/ExperienceSection';
 import CertificationsSection from './components/CertificationsSection';
@@ -11,6 +12,7 @@ import GithubSection from './components/GithubSection';
 const sectionIds = ['about', 'projects', 'stack', 'experience', 'certifications', 'affiliations', 'github'];
 
 export default function App() {
+  const [currentView, setCurrentView] = useState('home'); // 'home' | 'projects'
   const [activeSection, setActiveSection] = useState('projects');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const isNavClickingRef = useRef(false);
@@ -30,6 +32,14 @@ export default function App() {
 
   // Handle manual navigation click from sidebar
   const handleNavClick = useCallback((id) => {
+    if (currentView !== 'home') {
+      setCurrentView('home');
+      // Wait for view transition to mount sections before scrolling
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 50);
+    }
     setActiveSection(id);
     isNavClickingRef.current = true;
 
@@ -37,10 +47,12 @@ export default function App() {
     navClickTimeoutRef.current = setTimeout(() => {
       isNavClickingRef.current = false;
     }, 1000);
-  }, []);
+  }, [currentView]);
 
-  // ScrollSpy (Only updates when user scrolls manually)
+  // ScrollSpy (Only updates when user scrolls manually on home view)
   useEffect(() => {
+    if (currentView !== 'home') return;
+
     const handleScroll = () => {
       if (isNavClickingRef.current) return;
 
@@ -65,12 +77,24 @@ export default function App() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [currentView]);
 
   const toggleSidebar = useCallback(() => setSidebarOpen((o) => !o), []);
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
   const toggleTheme = useCallback(() => {
     setTheme((t) => (t === 'dark' ? 'light' : 'dark'));
+  }, []);
+
+  const openAllProjects = useCallback(() => {
+    setCurrentView('projects');
+    setActiveSection('projects');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  const backToHome = useCallback(() => {
+    setCurrentView('home');
+    setActiveSection('projects');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   return (
@@ -89,13 +113,19 @@ export default function App() {
       />
 
       <main className="main-content">
-        <LandingSection />
-        <ProjectsSection />
-        <StackSection />
-        <ExperienceSection />
-        <CertificationsSection />
-        <AffiliationsSection />
-        <GithubSection />
+        {currentView === 'projects' ? (
+          <ProjectsPage onBack={backToHome} />
+        ) : (
+          <>
+            <LandingSection />
+            <ProjectsSection onOpenAllProjects={openAllProjects} />
+            <StackSection />
+            <ExperienceSection />
+            <CertificationsSection />
+            <AffiliationsSection />
+            <GithubSection />
+          </>
+        )}
       </main>
     </div>
   );

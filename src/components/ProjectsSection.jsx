@@ -1,20 +1,25 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { projects } from '../data/portfolioData';
 
-export default function ProjectsSection() {
-  const [showAll, setShowAll] = useState(false);
+export default function ProjectsSection({ onOpenAllProjects }) {
   const [activeProject, setActiveProject] = useState(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const wrapperRef = useRef(null);
 
-  const visibleProjects = showAll ? projects : projects.slice(0, 4);
+  const visibleProjects = projects.slice(0, 4);
 
   const handleMouseMove = (e) => {
-    setMousePos({ x: e.clientX, y: e.clientY });
+    if (wrapperRef.current) {
+      wrapperRef.current.style.transform = `translate3d(${e.clientX + 16}px, ${e.clientY - 101}px, 0)`;
+    }
   };
 
   const handleMouseEnter = (project, e) => {
     setActiveProject(project);
-    setMousePos({ x: e.clientX, y: e.clientY });
+    requestAnimationFrame(() => {
+      if (wrapperRef.current) {
+        wrapperRef.current.style.transform = `translate3d(${e.clientX + 16}px, ${e.clientY - 101}px, 0)`;
+      }
+    });
   };
 
   const handleMouseLeave = () => {
@@ -27,13 +32,13 @@ export default function ProjectsSection() {
         <div className="section-label">01 — projects</div>
         <button
           className="section-link-btn"
-          onClick={() => setShowAll((prev) => !prev)}
+          onClick={onOpenAllProjects}
         >
-          {showAll ? 'SHOW LESS ←' : 'ALL PROJECTS →'}
+          ALL PROJECTS →
         </button>
       </div>
 
-      {/* Experience-style Projects Table/Timeline (Top 4 by default) */}
+      {/* Experience-style Projects Table/Timeline (Top 4) */}
       <div className="projects-exp-timeline">
         {visibleProjects.map((project, idx) => (
           <a
@@ -65,14 +70,11 @@ export default function ProjectsSection() {
         ))}
       </div>
 
-      {/* Cursor-Following Flat Rectangle Lizard-Eye Image Preview */}
+      {/* Hardware-Accelerated Viewport-Fixed Hover Popup (2x Size, Vertically Centered at Cursor Height) */}
       {activeProject && (
         <div
+          ref={wrapperRef}
           className="project-cursor-image-wrapper"
-          style={{
-            left: `${mousePos.x + 20}px`,
-            top: `${mousePos.y - 90}px`,
-          }}
         >
           <div key={activeProject.title} className="project-lizard-eye-box">
             <img
