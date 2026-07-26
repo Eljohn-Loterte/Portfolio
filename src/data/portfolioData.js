@@ -157,7 +157,7 @@ export const certifications = [
     date: "2026",
     type: "Completion",
     category: "Data Science",
-    image: "/certs/Data_Manipulation_With_Pandas.png",
+    image: "/certs/Data_Manipulation_With_Pandas.pdf",
   },
   {
     name: "Intermediate Python",
@@ -165,7 +165,7 @@ export const certifications = [
     date: "2026",
     type: "Completion",
     category: "Data Science",
-    image: "/certs/Intemediate_Python.png",
+    image: "/certs/Intemediate_Python.pdf",
   },
   {
     name: "Introduction to Python",
@@ -173,7 +173,7 @@ export const certifications = [
     date: "2026",
     type: "Completion",
     category: "Data Science",
-    image: "/certs/Intro_To_Python.png",
+    image: "/certs/Intro_To_Python.pdf",
   },
   {
     name: "Introduction to Tableau",
@@ -181,7 +181,7 @@ export const certifications = [
     date: "2026",
     type: "Completion",
     category: "Data Analytics",
-    image: "/certs/Intro_to_Tableau.png",
+    image: "/certs/Intro_to_Tableau.pdf",
   },
   {
     name: "AWS Certified Machine Learning — Specialty",
@@ -189,7 +189,7 @@ export const certifications = [
     date: "2024",
     type: "Professional",
     category: "Data Science",
-    image: "/public/certs/Intro_to_Tableau.png",
+    image: "/certs/Intro_to_Tableau.png",
   },
   {
     name: "Google Data Analytics Professional Certificate",
