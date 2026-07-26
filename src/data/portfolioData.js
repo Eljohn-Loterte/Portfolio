@@ -157,7 +157,7 @@ export const certifications = [
     date: "2026",
     type: "Completion",
     category: "Data Science",
-    image: "/certs/Data_Manipulation_With_Pandas.pdf",
+    image: "/certs/Data_Manipulation_With_Pandas.png",
   },
   {
     name: "Intermediate Python",
@@ -165,7 +165,7 @@ export const certifications = [
     date: "2026",
     type: "Completion",
     category: "Data Science",
-    image: "/certs/Intemediate_Python.pdf",
+    image: "/certs/Intemediate_Python.png",
   },
   {
     name: "Introduction to Python",
@@ -173,7 +173,7 @@ export const certifications = [
     date: "2026",
     type: "Completion",
     category: "Data Science",
-    image: "/certs/Intro_To_Python.pdf",
+    image: "/certs/Intro_To_Python.png",
   },
   {
     name: "Introduction to Tableau",
@@ -181,7 +181,7 @@ export const certifications = [
     date: "2026",
     type: "Completion",
     category: "Data Analytics",
-    image: "/certs/Intro_to_Tableau.pdf",
+    image: "/certs/Intro_to_Tableau.png",
   },
   {
     name: "AWS Certified Machine Learning — Specialty",
