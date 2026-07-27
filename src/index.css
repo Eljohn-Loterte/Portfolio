@@ -455,11 +455,11 @@ body {
   background: var(--border-primary);
 }
 
-.mini-grid-cell.level-0 { background: rgba(255, 255, 255, 0.05); }
-.mini-grid-cell.level-1 { background: #0e4429; }
-.mini-grid-cell.level-2 { background: #006d32; }
-.mini-grid-cell.level-3 { background: #26a641; }
-.mini-grid-cell.level-4 { background: #39d353; }
+.mini-grid-cell.level-0 { background: var(--dot-level-0); }
+.mini-grid-cell.level-1 { background: var(--dot-level-1); }
+.mini-grid-cell.level-2 { background: var(--dot-level-2); }
+.mini-grid-cell.level-3 { background: var(--dot-level-3); }
+.mini-grid-cell.level-4 { background: var(--dot-level-4); }
 
 /* Sidebar Reach Me At Footer */
 .sidebar-footer {
