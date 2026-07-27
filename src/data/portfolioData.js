@@ -237,19 +237,19 @@ export const certifications = [
 
 export const affiliations = [
   {
-    name: "Data Science Society PH",
-    role: "Member & Technical Contributor",
+    name: "Circle Of Unified Information Technology Students",
+    role: "Business Manager | 2023 - 2025",
     icon: "🌐",
   },
   {
-    name: "Developer Student Clubs",
-    role: "Core Team Lead — AI Track",
-    icon: "🚀",
+    name: "BU-USC",
+    role: "Internal Affairs Committe",
+    icon: "📈",
   },
   {
-    name: "Analytics Association of the Philippines",
-    role: "Student Member",
-    icon: "📈",
+    name: "Bicol University Integrated League of DOST Scholars",
+    role: "Ways and Means Coucilor | 2025",
+    icon: "🚀",
   },
 ];
 
