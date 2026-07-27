@@ -23,11 +23,12 @@
   --accent-dim: #2dd4bf15;
   --accent-emerald: #34d399;
 
-  --dot-level-0: #1c1c22;
-  --dot-level-1: #3f3f46;
-  --dot-level-2: #71717a;
-  --dot-level-3: #a1a1aa;
-  --dot-level-4: #f4f4f5;
+  /* RIGHT PART: Dark Mode — Darkish gray base dots + Light-light gray contribution dots */
+  --dot-level-0: #33373e;
+  --dot-level-1: #94a3b8;
+  --dot-level-2: #cbd5e1;
+  --dot-level-3: #e2e8f0;
+  --dot-level-4: #f8fafc;
 
   --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.5);
   --shadow-card-hover: 0 8px 30px rgba(0, 0, 0, 0.7);
@@ -57,11 +58,12 @@
   --accent-dim: #05966918;
   --accent-emerald: #047857;
 
-  --dot-level-0: #b0b8c1;     /* Darker slate gray empty squares so they pop out cleanly in Light Mode */
-  --dot-level-1: #9be9a8;     /* GitHub Light Green 1 */
-  --dot-level-2: #40c463;     /* GitHub Light Green 2 */
-  --dot-level-3: #30a14e;     /* GitHub Light Green 3 */
-  --dot-level-4: #216e39;     /* GitHub Light Green 4 */
+  /* RIGHT PART: Light Mode — Vice versa of Dark Mode (Light gray base dots + Dark gray contribution dots) */
+  --dot-level-0: #e2e8f0;
+  --dot-level-1: #64748b;
+  --dot-level-2: #334155;
+  --dot-level-3: #1e293b;
+  --dot-level-4: #09090b;
 
   --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.06);
   --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.1);
@@ -455,11 +457,19 @@ body {
   background: var(--border-primary);
 }
 
-.mini-grid-cell.level-0 { background: var(--dot-level-0); }
-.mini-grid-cell.level-1 { background: var(--dot-level-1); }
-.mini-grid-cell.level-2 { background: var(--dot-level-2); }
-.mini-grid-cell.level-3 { background: var(--dot-level-3); }
-.mini-grid-cell.level-4 { background: var(--dot-level-4); }
+/* LEFT SIDEBAR ONLY — GitHub Green Palette on both Light & Dark Mode */
+.mini-grid-cell.level-1 { background: #0e4429 !important; }
+.mini-grid-cell.level-2 { background: #006d32 !important; }
+.mini-grid-cell.level-3 { background: #26a641 !important; }
+.mini-grid-cell.level-4 { background: #39d353 !important; }
+
+[data-theme="dark"] .mini-grid-cell.level-0 {
+  background: #1c1c22 !important;
+}
+
+[data-theme="light"] .mini-grid-cell.level-0 {
+  background: #a5adb6 !important;
+}
 
 /* Sidebar Reach Me At Footer */
 .sidebar-footer {
