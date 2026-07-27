@@ -78,7 +78,7 @@ function getFormattedMonthYear() {
   return `${now.toLocaleString('en-US', { month: 'long' })} ${now.getFullYear()}`;
 }
 
-export default function Sidebar({ activeSection, isOpen, onClose, theme, onToggleTheme, onSelectSection, onGoHome }) {
+export default function Sidebar({ activeSection, isOpen, onClose, themeMode, onToggleTheme, onSelectSection, onGoHome }) {
   const [ghStats, setGhStats] = useState({
     monthContributions: 0,
     monthDays: [],
@@ -158,13 +158,13 @@ export default function Sidebar({ activeSection, isOpen, onClose, theme, onToggl
     <>
       <div className={`mobile-overlay ${isOpen ? 'open' : ''}`} onClick={onClose} />
       <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
-        {/* Name — Clickable button back to home */}
+        {/* Logo / Name — Clickable button back to home */}
         <button
           className="sidebar-name-btn"
           onClick={handleNameClick}
           title="Return to Home"
         >
-          {profile.logo}
+          {profile.logo || profile.name}
         </button>
 
         {/* Divider */}
@@ -188,15 +188,15 @@ export default function Sidebar({ activeSection, isOpen, onClose, theme, onToggl
         {/* Divider */}
         <div className="sidebar-divider" />
 
-        {/* Icon Sun | Icon Moon Theme Toggle Button */}
-        <button
-          className="sidebar-theme-btn"
-          onClick={onToggleTheme}
-          title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-          aria-label="Toggle theme"
-        >
-          {/* Sun Icon */}
-          <span className={`theme-btn-icon ${theme === 'light' ? 'active' : ''}`}>
+        {/* Oval Pill Theme Switcher: Sun | Moon | System Desktop */}
+        <div className="sidebar-theme-switch" role="radiogroup" aria-label="Theme switcher">
+          {/* Sun Icon (Light Mode) */}
+          <button
+            className={`theme-icon-btn ${themeMode === 'light' ? 'active' : ''}`}
+            onClick={(e) => onToggleTheme('light', e)}
+            title="Light Mode"
+            aria-label="Light Mode"
+          >
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="5"/>
               <line x1="12" y1="1" x2="12" y2="3"/>
@@ -208,17 +208,38 @@ export default function Sidebar({ activeSection, isOpen, onClose, theme, onToggl
               <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
               <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
             </svg>
-          </span>
+          </button>
 
-          <span className="theme-btn-divider">|</span>
+          <span className="theme-switch-divider">|</span>
 
-          {/* Moon Icon */}
-          <span className={`theme-btn-icon ${theme === 'dark' ? 'active' : ''}`}>
+          {/* Moon Icon (Dark Mode) */}
+          <button
+            className={`theme-icon-btn ${themeMode === 'dark' ? 'active' : ''}`}
+            onClick={(e) => onToggleTheme('dark', e)}
+            title="Dark Mode"
+            aria-label="Dark Mode"
+          >
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
             </svg>
-          </span>
-        </button>
+          </button>
+
+          <span className="theme-switch-divider">|</span>
+
+          {/* Desktop Monitor Icon (System Default) */}
+          <button
+            className={`theme-icon-btn ${themeMode === 'system' ? 'active' : ''}`}
+            onClick={(e) => onToggleTheme('system', e)}
+            title="System / Desktop Default"
+            aria-label="System Default"
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+              <line x1="8" y1="21" x2="16" y2="21"/>
+              <line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+          </button>
+        </div>
 
         {/* Real Live GitHub Contribution Mini Widget (Current Month) */}
         <div

@@ -299,51 +299,57 @@ body {
   color: var(--accent);
 }
 
-.sidebar-theme-btn {
+/* Oval Pill Theme Switcher (Light | Dark | System Desktop) */
+.sidebar-theme-switch {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: fit-content;
-  padding: 5px 12px;
+  gap: 3px;
+  padding: 3px 6px;
   margin-bottom: 16px;
   background: var(--bg-card);
   border: 1px solid var(--border-primary);
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
+  border-radius: 9999px; /* Maximum Oval / Pill Shape */
+  width: fit-content;
   transition: all var(--transition-fast);
 }
 
-.sidebar-theme-btn:hover {
-  border-color: var(--accent);
-  background: var(--bg-card-hover);
+.sidebar-theme-switch:hover {
+  border-color: var(--border-secondary);
 }
 
-.theme-btn-icon {
-  display: inline-flex;
+.theme-icon-btn {
+  display: flex;
   align-items: center;
   justify-content: center;
-  padding: 3px 5px;
-  border-radius: 4px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%; /* Perfect Circle Highlight */
+  border: none;
+  background: transparent;
   color: var(--text-muted);
   opacity: 0.45;
+  cursor: pointer;
   transition: all var(--transition-fast);
 }
 
-.theme-btn-icon.active {
+.theme-icon-btn:hover {
+  opacity: 0.85;
+  color: var(--text-primary);
+}
+
+.theme-icon-btn.active {
   color: var(--accent);
   opacity: 1;
   background: var(--accent-dim);
+  box-shadow: 0 0 8px rgba(5, 196, 107, 0.25);
   transform: scale(1.05);
 }
 
-.theme-btn-divider {
+.theme-switch-divider {
   color: var(--border-primary);
-  font-size: 11px;
+  font-size: 10px;
   user-select: none;
-  opacity: 0.5;
+  opacity: 0.35;
 }
 
 /* Native Circular View Transition for Smooth Theme Reveal */

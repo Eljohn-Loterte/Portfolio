@@ -20,17 +20,31 @@ export default function App() {
   const isNavClickingRef = useRef(false);
   const navClickTimeoutRef = useRef(null);
 
-  const [theme, setTheme] = useState(() => {
+  // Theme Mode: 'light' | 'dark' | 'system'
+  const [themeMode, setThemeMode] = useState(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('portfolio-theme') || 'dark';
+      return localStorage.getItem('portfolio-theme-mode') || 'system';
     }
-    return 'dark';
+    return 'system';
   });
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('portfolio-theme', theme);
-  }, [theme]);
+    const getSystemTheme = () => (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const effectiveTheme = themeMode === 'system' ? getSystemTheme() : themeMode;
+
+    document.documentElement.setAttribute('data-theme', effectiveTheme);
+    localStorage.setItem('portfolio-theme-mode', themeMode);
+
+    if (themeMode === 'system') {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const handleChange = (e) => {
+        const newSystemTheme = e.matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', newSystemTheme);
+      };
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
+    }
+  }, [themeMode]);
 
   // Handle manual navigation click from sidebar
   const handleNavClick = useCallback((id) => {
@@ -84,7 +98,7 @@ export default function App() {
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
 
   // Smooth circular view transition originating from toggle button
-  const toggleThemeWithCircle = useCallback((e) => {
+  const handleThemeChange = useCallback((newMode, e) => {
     let x = window.innerWidth / 2;
     let y = window.innerHeight / 2;
 
@@ -97,20 +111,18 @@ export default function App() {
       y = e.clientY;
     }
 
-    const nextTheme = theme === 'dark' ? 'light' : 'dark';
-
     // Set origin coordinates for circular clip-path animation
     document.documentElement.style.setProperty('--ripple-x', `${x}px`);
     document.documentElement.style.setProperty('--ripple-y', `${y}px`);
 
     if (typeof document !== 'undefined' && document.startViewTransition) {
       document.startViewTransition(() => {
-        setTheme(nextTheme);
+        setThemeMode(newMode);
       });
     } else {
-      setTheme(nextTheme);
+      setThemeMode(newMode);
     }
-  }, [theme]);
+  }, []);
 
   const openAllProjects = useCallback(() => {
     setCurrentView('projects');
@@ -140,8 +152,8 @@ export default function App() {
         activeSection={activeSection}
         isOpen={sidebarOpen}
         onClose={closeSidebar}
-        theme={theme}
-        onToggleTheme={toggleThemeWithCircle}
+        themeMode={themeMode}
+        onToggleTheme={handleThemeChange}
         onSelectSection={handleNavClick}
         onGoHome={backToHome}
       />
