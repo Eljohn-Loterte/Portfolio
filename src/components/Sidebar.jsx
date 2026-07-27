@@ -18,7 +18,7 @@ const navItems = [
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <polygon points="12 2 2 7 12 12 22 7 12 2"/>
         <polyline points="2 17 12 22 22 17"/>
-        <polyline points="2 12 12 17 22 12"/>
+        <polyline points="2 12 17 22 12"/>
       </svg>
     ),
   },
@@ -75,12 +75,13 @@ function getLevelClass(level, count) {
 
 export default function Sidebar({ activeSection, isOpen, onClose, theme, onToggleTheme, onSelectSection, onGoHome }) {
   const [ghStats, setGhStats] = useState({
-    totalContributions: fallbackData.totalContributions,
+    monthContributions: 0,
     currentStreak: fallbackData.currentStreak,
-    recentDays: [],
+    monthDays: [],
+    currentMonthName: new Date().toLocaleString('en-US', { month: 'short' }),
   });
 
-  // Fetch real-time GitHub activity for Eljohn-Loterte
+  // Fetch real-time GitHub activity for current month
   useEffect(() => {
     let isMounted = true;
     async function fetchLiveGithubStats() {
@@ -90,7 +91,22 @@ export default function Sidebar({ activeSection, isOpen, onClose, theme, onToggl
           const data = await res.json();
           if (data && data.contributions && Array.isArray(data.contributions)) {
             const flatList = data.contributions.flat();
-            const total = flatList.reduce((acc, d) => acc + (d.contributionCount || 0), 0);
+
+            // Determine current month & year
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth();
+            const monthName = now.toLocaleString('en-US', { month: 'short' });
+
+            // Filter days for current calendar month
+            const currentMonthDays = flatList.filter((d) => {
+              if (!d.date) return false;
+              const dt = new Date(d.date);
+              return dt.getFullYear() === year && dt.getMonth() === month;
+            });
+
+            // Calculate month total contributions
+            const monthTotal = currentMonthDays.reduce((acc, d) => acc + (d.contributionCount || 0), 0);
 
             // Calculate current streak
             const recentList = [...flatList].reverse();
@@ -106,14 +122,12 @@ export default function Sidebar({ activeSection, isOpen, onClose, theme, onToggl
               }
             }
 
-            // Extract last 35 days for mini grid
-            const last35Days = flatList.slice(-35);
-
             if (isMounted) {
               setGhStats({
-                totalContributions: total || fallbackData.totalContributions,
+                monthContributions: monthTotal,
                 currentStreak: streak || fallbackData.currentStreak,
-                recentDays: last35Days,
+                monthDays: currentMonthDays.length > 0 ? currentMonthDays : flatList.slice(-30),
+                currentMonthName: monthName,
               });
             }
           }
@@ -146,11 +160,11 @@ export default function Sidebar({ activeSection, isOpen, onClose, theme, onToggl
     if (onClose) onClose();
   };
 
-  // Generate fallback mini-cells if live array is empty
-  const displayDays = ghStats.recentDays.length === 35
-    ? ghStats.recentDays
-    : Array.from({ length: 35 }).map((_, i) => ({
-        contributionCount: [0, 1, 3, 2, 4, 1, 0, 2, 4, 3, 1, 4, 2, 0, 3, 4, 1, 2, 3, 4, 2, 1, 4, 3, 2, 0, 4, 3, 2, 1, 4, 3, 2, 4, 3][i],
+  // Fallback grid days if live array is empty
+  const displayDays = ghStats.monthDays.length > 0
+    ? ghStats.monthDays
+    : Array.from({ length: 30 }).map((_, i) => ({
+        contributionCount: [0, 1, 3, 2, 4, 1, 0, 2, 4, 3, 1, 4, 2, 0, 3, 4, 1, 2, 3, 4, 2, 1, 4, 3, 2, 0, 4, 3, 2, 1][i],
         contributionLevel: 'FIRST_QUARTILE',
         date: '',
       }));
@@ -216,27 +230,27 @@ export default function Sidebar({ activeSection, isOpen, onClose, theme, onToggl
           ) }
         </button>
 
-        {/* Real Live GitHub Contribution Mini Widget for Eljohn-Loterte */}
+        {/* Real Live GitHub Contribution Mini Widget (This Month) */}
         <div
           className="sidebar-github-widget"
           onClick={(e) => handleNavClick(e, 'github')}
-          title="View Live GitHub Contributions for Eljohn-Loterte"
+          title="View Live GitHub Activity for Eljohn-Loterte"
         >
           <div className="sidebar-github-header">
             <span className="sidebar-github-title">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
               </svg>
-              GitHub Activity
+              github activity this month
             </span>
             <span className="sidebar-github-streak">🔥 {ghStats.currentStreak}d</span>
           </div>
 
           <div className="sidebar-github-count">
-            {ghStats.totalContributions.toLocaleString()} <span className="count-label">contributions</span>
+            {ghStats.monthContributions.toLocaleString()} <span className="count-label">contributions in {ghStats.currentMonthName}</span>
           </div>
 
-          {/* Real-time 35-cell Activity Grid */}
+          {/* Current Month Activity Grid */}
           <div className="sidebar-github-grid">
             {displayDays.map((day, i) => {
               const levelClass = getLevelClass(day.contributionLevel, day.contributionCount);
