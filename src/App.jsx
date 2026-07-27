@@ -97,13 +97,15 @@ export default function App() {
       y = e.clientY;
     }
 
-    setCircleRipple({ x, y });
-    setTheme((t) => (t === 'dark' ? 'light' : 'dark'));
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+
+    setCircleRipple({ x, y, targetTheme: nextTheme });
+    setTheme(nextTheme);
 
     setTimeout(() => {
       setCircleRipple(null);
-    }, 600);
-  }, []);
+    }, 650);
+  }, [theme]);
 
   const openAllProjects = useCallback(() => {
     setCurrentView('projects');
@@ -125,10 +127,10 @@ export default function App() {
 
   return (
     <div className="app-layout">
-      {/* Expanding Growing Circle Ripple Animation Overlay */}
+      {/* Growing Light/Dark Mode Circle Overlay originating from toggle button */}
       {circleRipple && (
         <div
-          className="theme-growing-circle-overlay"
+          className={`theme-growing-circle-overlay ${circleRipple.targetTheme}`}
           style={{
             '--ripple-x': `${circleRipple.x}px`,
             '--ripple-y': `${circleRipple.y}px`,

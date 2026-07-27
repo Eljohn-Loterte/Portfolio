@@ -351,18 +351,25 @@ body {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 99999;
-  background: var(--accent);
-  animation: growCircleWave 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  z-index: 999999;
+  animation: growCircleWave 0.65s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.theme-growing-circle-overlay.light {
+  background: #ffffff;
+}
+
+.theme-growing-circle-overlay.dark {
+  background: #08090a;
 }
 
 @keyframes growCircleWave {
   0% {
     clip-path: circle(0px at var(--ripple-x, 50%) var(--ripple-y, 50%));
-    opacity: 0.5;
+    opacity: 1;
   }
-  50% {
-    opacity: 0.3;
+  85% {
+    opacity: 1;
   }
   100% {
     clip-path: circle(160vmax at var(--ripple-x, 50%) var(--ripple-y, 50%));
