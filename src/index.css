@@ -302,8 +302,8 @@ body {
 .sidebar-theme-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
+  gap: 8px;
+  padding: 6px 12px;
   margin-bottom: 16px;
   background: transparent;
   border: 1px solid var(--border-primary);
@@ -312,13 +312,60 @@ body {
   font-family: var(--font-mono);
   font-size: 11px;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
   transition: all var(--transition-fast);
 }
 
 .sidebar-theme-btn:hover {
-  color: var(--text-primary);
-  border-color: var(--border-secondary);
+  border-color: var(--accent);
   background: var(--accent-dim);
+}
+
+.theme-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  opacity: 0.45;
+  transition: all var(--transition-fast);
+}
+
+.theme-btn-icon.active {
+  color: var(--accent);
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.theme-btn-divider {
+  color: var(--border-secondary);
+  font-size: 11px;
+  user-select: none;
+  opacity: 0.5;
+}
+
+/* Theme Toggle Growing Circle Ripple Overlay */
+.theme-growing-circle-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 99999;
+  background: var(--accent);
+  animation: growCircleWave 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes growCircleWave {
+  0% {
+    clip-path: circle(0px at var(--ripple-x, 50%) var(--ripple-y, 50%));
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    clip-path: circle(160vmax at var(--ripple-x, 50%) var(--ripple-y, 50%));
+    opacity: 0;
+  }
 }
 
 .sidebar-contact-info {

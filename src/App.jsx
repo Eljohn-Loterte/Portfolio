@@ -16,6 +16,8 @@ export default function App() {
   const [currentView, setCurrentView] = useState('home'); // 'home' | 'projects' | 'certifications'
   const [activeSection, setActiveSection] = useState('projects');
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [circleRipple, setCircleRipple] = useState(null);
+
   const isNavClickingRef = useRef(false);
   const navClickTimeoutRef = useRef(null);
 
@@ -35,7 +37,6 @@ export default function App() {
   const handleNavClick = useCallback((id) => {
     if (currentView !== 'home') {
       setCurrentView('home');
-      // Wait for view transition to mount sections before scrolling
       setTimeout(() => {
         const el = document.getElementById(id);
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -82,8 +83,26 @@ export default function App() {
 
   const toggleSidebar = useCallback(() => setSidebarOpen((o) => !o), []);
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
-  const toggleTheme = useCallback(() => {
+
+  const toggleThemeWithCircle = useCallback((e) => {
+    let x = window.innerWidth / 2;
+    let y = window.innerHeight / 2;
+
+    if (e && e.currentTarget) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      x = rect.left + rect.width / 2;
+      y = rect.top + rect.height / 2;
+    } else if (e && e.clientX) {
+      x = e.clientX;
+      y = e.clientY;
+    }
+
+    setCircleRipple({ x, y });
     setTheme((t) => (t === 'dark' ? 'light' : 'dark'));
+
+    setTimeout(() => {
+      setCircleRipple(null);
+    }, 600);
   }, []);
 
   const openAllProjects = useCallback(() => {
@@ -106,6 +125,17 @@ export default function App() {
 
   return (
     <div className="app-layout">
+      {/* Expanding Growing Circle Ripple Animation Overlay */}
+      {circleRipple && (
+        <div
+          className="theme-growing-circle-overlay"
+          style={{
+            '--ripple-x': `${circleRipple.x}px`,
+            '--ripple-y': `${circleRipple.y}px`,
+          }}
+        />
+      )}
+
       <button className="mobile-menu-toggle" onClick={toggleSidebar} aria-label="Toggle menu">
         {sidebarOpen ? '✕' : '☰'}
       </button>
@@ -115,7 +145,7 @@ export default function App() {
         isOpen={sidebarOpen}
         onClose={closeSidebar}
         theme={theme}
-        onToggleTheme={toggleTheme}
+        onToggleTheme={toggleThemeWithCircle}
         onSelectSection={handleNavClick}
         onGoHome={backToHome}
       />
