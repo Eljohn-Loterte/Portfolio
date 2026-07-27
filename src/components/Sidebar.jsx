@@ -1,4 +1,5 @@
-import { profile, githubData } from '../data/portfolioData';
+import { useState, useEffect } from 'react';
+import { profile, githubData as fallbackData } from '../data/portfolioData';
 
 const navItems = [
   {
@@ -64,7 +65,68 @@ const navItems = [
   },
 ];
 
+function getLevelClass(level, count) {
+  if (!count || count === 0 || level === 'NONE') return 'level-0';
+  if (level === 'FIRST_QUARTILE' || count <= 2) return 'level-1';
+  if (level === 'SECOND_QUARTILE' || count <= 4) return 'level-2';
+  if (level === 'THIRD_QUARTILE' || count <= 6) return 'level-3';
+  return 'level-4';
+}
+
 export default function Sidebar({ activeSection, isOpen, onClose, theme, onToggleTheme, onSelectSection, onGoHome }) {
+  const [ghStats, setGhStats] = useState({
+    totalContributions: fallbackData.totalContributions,
+    currentStreak: fallbackData.currentStreak,
+    recentDays: [],
+  });
+
+  // Fetch real-time GitHub activity for Eljohn-Loterte
+  useEffect(() => {
+    let isMounted = true;
+    async function fetchLiveGithubStats() {
+      try {
+        const res = await fetch('https://github-contributions-api.deno.dev/Eljohn-Loterte.json');
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.contributions && Array.isArray(data.contributions)) {
+            const flatList = data.contributions.flat();
+            const total = flatList.reduce((acc, d) => acc + (d.contributionCount || 0), 0);
+
+            // Calculate current streak
+            const recentList = [...flatList].reverse();
+            let streak = 0;
+            for (let i = 0; i < recentList.length; i++) {
+              const count = recentList[i].contributionCount || 0;
+              if (count > 0) {
+                streak++;
+              } else if (i === 0) {
+                continue;
+              } else {
+                break;
+              }
+            }
+
+            // Extract last 35 days for mini grid
+            const last35Days = flatList.slice(-35);
+
+            if (isMounted) {
+              setGhStats({
+                totalContributions: total || fallbackData.totalContributions,
+                currentStreak: streak || fallbackData.currentStreak,
+                recentDays: last35Days,
+              });
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('Live GitHub fetch fallback used:', err);
+      }
+    }
+
+    fetchLiveGithubStats();
+    return () => { isMounted = false; };
+  }, []);
+
   const handleNavClick = (e, id) => {
     e.preventDefault();
     if (onSelectSection) onSelectSection(id);
@@ -83,6 +145,15 @@ export default function Sidebar({ activeSection, isOpen, onClose, theme, onToggl
     }
     if (onClose) onClose();
   };
+
+  // Generate fallback mini-cells if live array is empty
+  const displayDays = ghStats.recentDays.length === 35
+    ? ghStats.recentDays
+    : Array.from({ length: 35 }).map((_, i) => ({
+        contributionCount: [0, 1, 3, 2, 4, 1, 0, 2, 4, 3, 1, 4, 2, 0, 3, 4, 1, 2, 3, 4, 2, 1, 4, 3, 2, 0, 4, 3, 2, 1, 4, 3, 2, 4, 3][i],
+        contributionLevel: 'FIRST_QUARTILE',
+        date: '',
+      }));
 
   return (
     <>
@@ -145,11 +216,11 @@ export default function Sidebar({ activeSection, isOpen, onClose, theme, onToggl
           ) }
         </button>
 
-        {/* GitHub Contribution Mini Widget */}
+        {/* Real Live GitHub Contribution Mini Widget for Eljohn-Loterte */}
         <div
           className="sidebar-github-widget"
           onClick={(e) => handleNavClick(e, 'github')}
-          title="View GitHub Activity"
+          title="View Live GitHub Contributions for Eljohn-Loterte"
         >
           <div className="sidebar-github-header">
             <span className="sidebar-github-title">
@@ -158,19 +229,27 @@ export default function Sidebar({ activeSection, isOpen, onClose, theme, onToggl
               </svg>
               GitHub Activity
             </span>
-            <span className="sidebar-github-streak">🔥 {githubData.currentStreak}d</span>
+            <span className="sidebar-github-streak">🔥 {ghStats.currentStreak}d</span>
           </div>
 
           <div className="sidebar-github-count">
-            {githubData.totalContributions.toLocaleString()} <span className="count-label">contributions</span>
+            {ghStats.totalContributions.toLocaleString()} <span className="count-label">contributions</span>
           </div>
 
-          {/* Mini 6x7 Activity Grid */}
+          {/* Real-time 35-cell Activity Grid */}
           <div className="sidebar-github-grid">
-            {Array.from({ length: 35 }).map((_, i) => {
-              const levels = ['level-0', 'level-1', 'level-2', 'level-3', 'level-4'];
-              const level = [0, 1, 3, 2, 4, 1, 0, 2, 4, 3, 1, 4, 2, 0, 3, 4, 1, 2, 3, 4, 2, 1, 4, 3, 2, 0, 4, 3, 2, 1, 4, 3, 2, 4, 3][i];
-              return <div key={i} className={`mini-grid-cell ${levels[level]}`} />;
+            {displayDays.map((day, i) => {
+              const levelClass = getLevelClass(day.contributionLevel, day.contributionCount);
+              const titleText = day.date
+                ? `${day.contributionCount || 0} contributions on ${day.date}`
+                : `${day.contributionCount || 0} contributions`;
+              return (
+                <div
+                  key={i}
+                  className={`mini-grid-cell ${levelClass}`}
+                  title={titleText}
+                />
+              );
             })}
           </div>
         </div>
