@@ -346,34 +346,28 @@ body {
   opacity: 0.5;
 }
 
-/* Theme Toggle Growing Circle Ripple Overlay */
-.theme-growing-circle-overlay {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 999999;
-  animation: growCircleWave 0.65s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+/* Native Circular View Transition for Smooth Theme Reveal */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }
 
-.theme-growing-circle-overlay.light {
-  background: #ffffff;
+::view-transition-old(root) {
+  z-index: 1;
 }
 
-.theme-growing-circle-overlay.dark {
-  background: #08090a;
+::view-transition-new(root) {
+  z-index: 99999;
+  animation: circleThemeExpand 0.85s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-@keyframes growCircleWave {
-  0% {
+@keyframes circleThemeExpand {
+  from {
     clip-path: circle(0px at var(--ripple-x, 50%) var(--ripple-y, 50%));
-    opacity: 1;
   }
-  85% {
-    opacity: 1;
-  }
-  100% {
+  to {
     clip-path: circle(160vmax at var(--ripple-x, 50%) var(--ripple-y, 50%));
-    opacity: 0;
   }
 }
 

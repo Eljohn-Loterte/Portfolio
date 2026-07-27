@@ -16,7 +16,6 @@ export default function App() {
   const [currentView, setCurrentView] = useState('home'); // 'home' | 'projects' | 'certifications'
   const [activeSection, setActiveSection] = useState('projects');
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [circleRipple, setCircleRipple] = useState(null);
 
   const isNavClickingRef = useRef(false);
   const navClickTimeoutRef = useRef(null);
@@ -84,6 +83,7 @@ export default function App() {
   const toggleSidebar = useCallback(() => setSidebarOpen((o) => !o), []);
   const closeSidebar = useCallback(() => setSidebarOpen(false), []);
 
+  // Smooth circular view transition originating from toggle button
   const toggleThemeWithCircle = useCallback((e) => {
     let x = window.innerWidth / 2;
     let y = window.innerHeight / 2;
@@ -99,12 +99,17 @@ export default function App() {
 
     const nextTheme = theme === 'dark' ? 'light' : 'dark';
 
-    setCircleRipple({ x, y, targetTheme: nextTheme });
-    setTheme(nextTheme);
+    // Set origin coordinates for circular clip-path animation
+    document.documentElement.style.setProperty('--ripple-x', `${x}px`);
+    document.documentElement.style.setProperty('--ripple-y', `${y}px`);
 
-    setTimeout(() => {
-      setCircleRipple(null);
-    }, 650);
+    if (typeof document !== 'undefined' && document.startViewTransition) {
+      document.startViewTransition(() => {
+        setTheme(nextTheme);
+      });
+    } else {
+      setTheme(nextTheme);
+    }
   }, [theme]);
 
   const openAllProjects = useCallback(() => {
@@ -127,17 +132,6 @@ export default function App() {
 
   return (
     <div className="app-layout">
-      {/* Growing Light/Dark Mode Circle Overlay originating from toggle button */}
-      {circleRipple && (
-        <div
-          className={`theme-growing-circle-overlay ${circleRipple.targetTheme}`}
-          style={{
-            '--ripple-x': `${circleRipple.x}px`,
-            '--ripple-y': `${circleRipple.y}px`,
-          }}
-        />
-      )}
-
       <button className="mobile-menu-toggle" onClick={toggleSidebar} aria-label="Toggle menu">
         {sidebarOpen ? '✕' : '☰'}
       </button>
