@@ -17,6 +17,7 @@ function createPlaceholder(title, bg1, bg2) {
 }
 
 export const profile = {
+  logo: "Re/Cre8",
   name: "Eljohn Loterte",
   initials: "EL",
   title: "Data Analytics · Front-End Dev · Data Science",

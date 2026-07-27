@@ -164,7 +164,7 @@ export default function Sidebar({ activeSection, isOpen, onClose, theme, onToggl
           onClick={handleNameClick}
           title="Return to Home"
         >
-          {profile.name}
+          {profile.logo}
         </button>
 
         {/* Divider */}
