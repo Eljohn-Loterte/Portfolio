@@ -302,15 +302,14 @@ body {
 .sidebar-theme-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 6px 12px;
+  width: fit-content;
+  padding: 5px 12px;
   margin-bottom: 16px;
-  background: transparent;
+  background: var(--bg-card);
   border: 1px solid var(--border-primary);
   border-radius: var(--radius-sm);
-  color: var(--text-muted);
-  font-family: var(--font-mono);
-  font-size: 11px;
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -319,13 +318,15 @@ body {
 
 .sidebar-theme-btn:hover {
   border-color: var(--accent);
-  background: var(--accent-dim);
+  background: var(--bg-card-hover);
 }
 
 .theme-btn-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  padding: 3px 5px;
+  border-radius: 4px;
   color: var(--text-muted);
   opacity: 0.45;
   transition: all var(--transition-fast);
@@ -334,11 +335,12 @@ body {
 .theme-btn-icon.active {
   color: var(--accent);
   opacity: 1;
-  transform: scale(1.1);
+  background: var(--accent-dim);
+  transform: scale(1.05);
 }
 
 .theme-btn-divider {
-  color: var(--border-secondary);
+  color: var(--border-primary);
   font-size: 11px;
   user-select: none;
   opacity: 0.5;
