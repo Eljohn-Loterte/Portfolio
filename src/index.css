@@ -23,11 +23,11 @@
   --accent-dim: #2dd4bf15;
   --accent-emerald: #34d399;
 
-  --dot-level-0: #26272e;
-  --dot-level-1: #0e4429;
-  --dot-level-2: #006d32;
-  --dot-level-3: #26a641;
-  --dot-level-4: #39d353;
+  --dot-level-0: #1c1c22;
+  --dot-level-1: #3f3f46;
+  --dot-level-2: #71717a;
+  --dot-level-3: #a1a1aa;
+  --dot-level-4: #f4f4f5;
 
   --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.5);
   --shadow-card-hover: 0 8px 30px rgba(0, 0, 0, 0.7);
@@ -57,11 +57,11 @@
   --accent-dim: #05966918;
   --accent-emerald: #047857;
 
-  --dot-level-0: #d0d7de;     /* Crisp darkish gray empty contribution squares */
-  --dot-level-1: #9be9a8;
-  --dot-level-2: #40c463;
-  --dot-level-3: #30a14e;
-  --dot-level-4: #216e39;
+  --dot-level-0: #b0b8c1;     /* Darker slate gray empty squares so they pop out cleanly in Light Mode */
+  --dot-level-1: #9be9a8;     /* GitHub Light Green 1 */
+  --dot-level-2: #40c463;     /* GitHub Light Green 2 */
+  --dot-level-3: #30a14e;     /* GitHub Light Green 3 */
+  --dot-level-4: #216e39;     /* GitHub Light Green 4 */
 
   --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.06);
   --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.1);
