@@ -457,12 +457,16 @@ body {
   background: var(--border-primary);
 }
 
-/* LEFT SIDEBAR ONLY — GitHub Green Palette on both Light & Dark Mode */
-.mini-grid-cell.level-1 { background: #0e4429 !important; }
-.mini-grid-cell.level-2 { background: #006d32 !important; }
-.mini-grid-cell.level-3 { background: #26a641 !important; }
-.mini-grid-cell.level-4 { background: #39d353 !important; }
+/* LEFT SIDEBAR ONLY */
+/* Squares WITH contribution: Same bright green in both Light & Dark Mode */
+.mini-grid-cell.level-1,
+.mini-grid-cell.level-2,
+.mini-grid-cell.level-3,
+.mini-grid-cell.level-4 {
+  background: #39d353 !important;
+}
 
+/* Squares WITHOUT contribution */
 [data-theme="dark"] .mini-grid-cell.level-0 {
   background: #1c1c22 !important;
 }
